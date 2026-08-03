@@ -28,15 +28,17 @@ This project was built as a hands-on exercise in applied cryptography and secure
 Each password is encrypted with a key derived from the user's master password and a per-entry salt — the master password itself is never stored, only its bcrypt hash.
 
 ## Project Structure
+```
 password-manager/
-├── main.py # CLI entry point
-├── Auth.py # Authentication logic (register/login/logout)
-├── Database.py # SQLite database layer
-├── Encryption.py # Encryption/decryption and key derivation
-├── Password.py # Core password manager logic
-├── User.py # Data models (User, PasswordEntry)
+├── main.py          # CLI entry point
+├── Auth.py           # Authentication logic (register/login/logout)
+├── Database.py        # SQLite database layer
+├── Encryption.py       # Encryption/decryption and key derivation
+├── Password.py         # Core password manager logic
+├── User.py            # Data models (User, PasswordEntry)
 ├── requirements.txt
 └── .gitignore
+```
 ## Installation
 
 ```bash
