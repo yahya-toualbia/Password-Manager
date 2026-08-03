@@ -42,7 +42,7 @@ password-manager/
 ## Installation
 
 ```bash
-git clone https://github.com/yahya-toualbia/password-manager.git
+git clone https://github.com/yahya-toualbia/Password-Manager.git
 cd password-manager
 pip install -r requirements.txt
 ```
