@@ -5,13 +5,13 @@
 
 class User:
 
-    def __init__(self, entry_id, username, password_hash):
+    def __init__(self, entry_id, username, master_password):
         """
         Create User object.
         """
         self.username = username
         self.entry_id = entry_id
-        self.password_hash = password_hash
+        self.master_password = master_password
 
     def to_dict(self):
         """
@@ -20,7 +20,7 @@ class User:
         usr_info_dic = {
             "username":self.username,
             "user id" : self.entry_id,
-            "password" : self.password_hash,
+            "password" : self.master_password,
         }
         return usr_info_dic
 
@@ -28,7 +28,7 @@ class User:
         """
         Return readable user information.
         """
-        return f"username -> {self.username} | user ID -> {self.entry_id} | password hash -> {self.password_hash}"
+        return f"username -> {self.username} | user ID -> {self.entry_id} | password hash -> {self.master_password}"
 
 
 class PasswordEntry:

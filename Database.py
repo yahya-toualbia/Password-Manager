@@ -84,6 +84,7 @@ class DatabaseManager:
         """
         Delete user from database.
         """
+        self.cursor.execute("DELETE FROM passwords WHERE user_id = ?",(user_id,))
         self.cursor.execute("DELETE FROM users WHERE user_id = ?",(user_id,))
         self.save_changes()
 

@@ -1,7 +1,7 @@
 from Auth import AuthManager
 from Password import PasswordManager
 from Database import DatabaseManager
-
+from User import *
 db = DatabaseManager()
 auth = AuthManager(db)
 password_manager = PasswordManager(auth ,db)
@@ -14,7 +14,9 @@ ask = """what do you want to do
 [6]- search_passwords
 [7]- generate_password
 [8]- check_password_strength
-[9]- exit
+[9]- show_info
+[10]- delete_user
+[11]- exit
 -> """
 def after_login(master_password):
         while password_manager.auth.is_authenticated():
@@ -73,8 +75,10 @@ password ID(number): """))
                         print("you have enter a letter try again")
                 if password_id == 0:
                     return False
-                if password_manager.remove_password(password_id):
-                    print("done")
+                confirm = input("are you sure? (y/n): ")
+                if confirm.lower() == "y":
+                    if password_manager.remove_password(password_id):
+                        print("done")
                 else:
                     print("some thing is hapend try again later")
             elif num == 6:
@@ -87,6 +91,19 @@ password ID(number): """))
                 password = input("enter the password: ")
                 print(password_manager.check_password_strength(password))
             elif num == 9:
+                current_usr = auth.current_user
+                current_usr_id = auth.current_user_id
+                user = User(current_usr_id,current_usr,master_password)
+                print(user.to_dict())
+            elif num == 10:
+                current_usr_id = auth.current_user_id
+                confirm = input("are you sure? (y/n): ")
+                if confirm.lower() == "y":
+                    db.delete_user(current_usr_id)
+                    print("account deleted")
+                    password_manager.auth.logout()
+                    break
+            elif num == 11:
                 password_manager.auth.logout()
                 password_manager.close()
                 break
