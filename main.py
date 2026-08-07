@@ -2,6 +2,8 @@ from Auth import AuthManager
 from Password import PasswordManager
 from Database import DatabaseManager
 from User import *
+import os
+
 db = DatabaseManager()
 auth = AuthManager(db)
 password_manager = PasswordManager(auth ,db)
@@ -18,11 +20,21 @@ ask = """what do you want to do
 [10]- delete_user
 [11]- exit
 -> """
+def clean_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+def go_back():
+    while True:
+        if_go_back = input("\ndo you want to go back?(y/n): ")
+        if if_go_back == "y":
+            clean_screen()
+            break
+
 def after_login(master_password):
         while password_manager.auth.is_authenticated():
             while True:
                 try:
                     num = int(input(ask))
+                    clean_screen()
                     break
                 except:
                     print("try again")
@@ -32,10 +44,12 @@ def after_login(master_password):
                 password = input("password: ")
                 if password_manager.create_password_entry(website ,account_username ,password ,master_password):
                     print("the password created successfully")
+                    go_back()
                 else:
                     print("some thing is hapend try again later")
             elif num == 2:
                 print(password_manager.show_all_passwords(master_password))
+                go_back()
             elif num == 3:
                 while True:
                     try:
@@ -48,6 +62,7 @@ password ID(number): """))
                 if password_id == 0:
                     return False
                 print(password_manager.reveal_password(password_id, master_password))
+                go_back()
             elif num == 4:
                 while True:
                     try:
@@ -62,6 +77,7 @@ password ID(number): """))
                 new_password = input("the new password: ")
                 if password_manager.edit_password(password_id ,new_password ,master_password):
                     print("done")
+                    go_back()
                 else:
                     print("some thing is hapend try again later")
             elif num == 5:
@@ -79,22 +95,27 @@ password ID(number): """))
                 if confirm.lower() == "y":
                     if password_manager.remove_password(password_id):
                         print("done")
+                        clean_screen()
                 else:
                     print("some thing is hapend try again later")
             elif num == 6:
                 website = input("name of website: ")
                 print(password_manager.search_passwords(website))
+                go_back()
             elif num == 7:
-                tall = int(input("the tall of the generated password: "))
-                print(password_manager.generate_password(tall))
+                length = int(input("the length of the generated password: "))
+                print(password_manager.generate_password(length))
+                go_back()
             elif num == 8:
                 password = input("enter the password: ")
                 print(password_manager.check_password_strength(password))
+                go_back()
             elif num == 9:
                 current_usr = auth.current_user
                 current_usr_id = auth.current_user_id
                 user = User(current_usr_id,current_usr,master_password)
                 print(user.to_dict())
+                go_back()
             elif num == 10:
                 current_usr_id = auth.current_user_id
                 confirm = input("are you sure? (y/n): ")
@@ -102,6 +123,7 @@ password ID(number): """))
                     db.delete_user(current_usr_id)
                     print("account deleted")
                     password_manager.auth.logout()
+                    clean_screen()
                     break
             elif num == 11:
                 password_manager.auth.logout()
@@ -114,7 +136,7 @@ while True:
     print("3. Exit")
 
     choice = input("> ")
-
+    clean_screen()
     if choice == "1":
         username = input("enter your name: ")
         m_password = input("enter your master password: ")
